@@ -1,11 +1,19 @@
 # growmonster
 
+Dependency info:
+
+```
+[growmonster "0.1.0"]
+```
+
 growmonster is a tiny library that I originally used to write and load
 database fixtures. Its purpose is to allow you to compactly represent
 entities and to allow entity attributes to reference other
 entities. Quick example:
 
 ```clojure
+(require '[growmonster.core :refer [inflatev]])
+
 (inflatev
  [:mages
   [:xanax

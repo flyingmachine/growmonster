@@ -12,6 +12,7 @@
           rmap))
 
 (defn inflate
+  "returns map and vector of inflated data"
   [data]
   (reduce
    (fn [inflated [group-name ents]]
