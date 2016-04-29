@@ -6,21 +6,22 @@ entities and to allow entity attributes to reference other
 entities. Quick example:
 
 ```clojure
-(inflatev [:mages
-           [:xanax
-            {:name "xanax" :id 1}
+(inflatev
+ [:mages
+  [:xanax
+   {:name "xanax" :id 1}
 
-            :vicodin
-            {:name "vicodin" :id 2}]
+   :vicodin
+   {:name "vicodin" :id 2}]
 
-           :spells
-           [[{:author [:mages :xanax :id]}
-             {:name "drowsiness" :id 10}
-             {:name "dizziness" :id 11}]
+  :spells
+  [[{:author [:mages :xanax :id]}
+    {:name "drowsiness" :id 10}
+    {:name "dizziness" :id 11}]
 
-            {:name "paranoia"
-             :author [:mages :vicodin :id]
-             :id 20}]])
+   {:name "paranoia"
+    :author [:mages :vicodin :id]
+    :id 20}]])
 
 ; =>
 [{:name "xanax", :id 1}
@@ -60,12 +61,14 @@ pairs. The keyword is a meaningful name for a group of values, and the
 vector is the group of values. Here's a very simple example:
 
 ```clojure
-(inflatev [:users
-           [{:user/username "billy"}]
+(inflatev
+ [:users
+  [{:user/username "billy"}]
 
-           :posts
-           [{:content/body "some post content"}]])
-; => [{:user/username "billy"} {:content/body "some post content"}]
+  :posts
+  [{:content/body "some post content"}]])
+; =>
+[{:user/username "billy"} {:content/body "some post content"}]
 ```
 
 In this example, `:users` and `:posts` are the group names. Each group
