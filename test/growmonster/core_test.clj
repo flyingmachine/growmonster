@@ -34,3 +34,39 @@
             {:name "anxiety"    :id 21 :author 2}
             {:name "paranoia"   :id 30}]
            (c/inflatev shrunk)))))
+
+(def complex-fixture
+  [:categories
+   [:alcohols
+    {:category/name "Alcohols"}]
+
+   :tags
+   [[{:tag/category [:categories :alcohols :category/name]}
+     :gin
+     {:tag/name "Gin"}
+
+     :bourbon
+     {:tag/name "Bourbon"}]]
+
+   :recipes
+   [{:recipe/name "Ginger Collins"
+     :recipe/ingredients [{:ingredient/tag [:tags :gin :tag/name]}
+                          [:tags :gin :tag/name]]
+     :recipe/tags [[:tags :gin :tag/name]
+                   [:tags :bourbon :tag/name]]}]])
+
+(deftest complex
+  ;; Nested references, vectors of references, and post-inflate
+  ;; transform
+  (is (= [{:category/name "Alcohols"}
+          {:tag/category "Alcohols"
+           :tag/name "gin"}
+          {:tag/category "Alcohols"
+           :tag/name "bourbon"}
+          {:recipe/name "Ginger Collins"
+           :recipe/ingredients [{:ingredient/tag "gin"} "gin"]
+           :recipe/tags ["gin" "bourbon"]}]
+         (c/inflatev complex-fixture
+                     #(if (:tag/name %)
+                        (update % :tag/name clojure.string/lower-case)
+                        %)))))
