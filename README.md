@@ -82,6 +82,29 @@ vector is the group of values. Here's a very simple example:
 In this example, `:users` and `:posts` are the group names. Each group
 vector has only one entity in it.
 
+**WARNING** The fixtures are processed in the order in which they're encountered. Right now, this:
+
+```clojure
+(g/inflatev
+  [:users
+   [:billy
+    {:db/id 1
+     :user/best-friend [:users :mandy :db/id]}
+
+    :mandy
+    {:db/id 2
+     :user/best-friend [:users :billy :db/id]}]])
+```
+
+Expands into this:
+
+```clojure
+[{:db/id 1, :user/best-friend nil} 
+ {:db/id 2, :user/best-friend 1}]
+```
+
+This is because `:user/best-friend [:users :mandy :db/id]` references a fixture that hasn't been encountered yet.
+
 ### Referencing Entities
 
 If you want to reference an entity, first you have to name the
