@@ -6,6 +6,12 @@
     m
     (reduce into (map (fn [[k v]] {k (f k v)}) m))))
 
+(defn inflate-map
+  [ent inflated-map post-inflate]
+  (->> ent
+       (mapval #(inflate-ent %2 inflated-map post-inflate))
+       post-inflate))
+
 (defprotocol InflateEnt
   (inflate-ent [ent inflated-map post-inflate] "inflate with post-inflate"))
 
@@ -18,9 +24,11 @@
 
   clojure.lang.PersistentArrayMap
   (inflate-ent [ent inflated-map post-inflate]
-    (->> ent
-         (mapval #(inflate-ent %2 inflated-map post-inflate))
-         post-inflate))
+    (inflate-map ent inflated-map post-inflate))
+
+  clojure.lang.PersistentHashMap
+  (inflate-ent [ent inflated-map post-inflate]
+    (inflate-map ent inflated-map post-inflate))
 
   java.lang.Object
   (inflate-ent [ent inflated-map post-inflate] ent)
