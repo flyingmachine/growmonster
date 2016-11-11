@@ -23,6 +23,9 @@
          post-inflate))
 
   java.lang.Object
+  (inflate-ent [ent inflated-map post-inflate] ent)
+
+  nil
   (inflate-ent [ent inflated-map post-inflate] ent))
 
 (defn inflate
