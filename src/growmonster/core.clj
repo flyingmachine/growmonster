@@ -6,14 +6,15 @@
     m
     (reduce into (map (fn [[k v]] {k (f k v)}) m))))
 
+
+(defprotocol InflateEnt
+  (inflate-ent [ent inflated-map post-inflate] "inflate with post-inflate"))
+
 (defn inflate-map
   [ent inflated-map post-inflate]
   (->> ent
        (mapval #(inflate-ent %2 inflated-map post-inflate))
        post-inflate))
-
-(defprotocol InflateEnt
-  (inflate-ent [ent inflated-map post-inflate] "inflate with post-inflate"))
 
 (extend-protocol InflateEnt
   clojure.lang.PersistentVector
