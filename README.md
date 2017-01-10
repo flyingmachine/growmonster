@@ -3,7 +3,7 @@
 Dependency info:
 
 ```
-[growmonster "0.1.0"]
+[growmonster "0.1.4"]
 ```
 
 growmonster is a tiny library that I originally used to write and load
